@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TLoaiSach>
+@foreach(var item in Model)
+{
+    var getUrl = "https://localhost:7193/api/productapi/" + item.MaLoai;
+    <li><a onclick="showProductByCategory('@getUrl')">@item.TenLoai</a></li>
+    @* <li><a href="#">@item.TenLoai</a></li> *@
+}
+
+<script>
+    function showProductByCategory(getUrl) {
+        var str = '';
+        $.ajax({
+            type: 'GET',
+            url: getUrl,
+            dataType: 'json',
+            success: function(data){
+               
+                $.each(data, function(key, val) {
+                    str += '<div class="col-12 col-sm-6 col-lg-3">';
+                    str += '<div class="single-product-area mb-50 wow fadeInUp" data-wow-delay="100ms">';
+                    str += '<div class="product-img">';
+                    str += '<a href="shop-details.html"><img src=\"';       
+                    var linkImage = "../image/Sach/" + $.trim(val.fileAnh);
+                    str+=linkImage;
+                    str += '\" alt=""></a>';
+                    str += '  <div class="product-tag"> <a href="#">Hot</a> </div>';
+                                
+                                   
+                               
+                    str += '<div class="product-meta d-flex">';
+                    str += '<a href="#" class="wishlist-btn"><i class="icon_heart_alt"></i></a>';
+                    str += '<a href="cart.html" class="add-to-cart-btn">Add to cart</a>';
+                    str += ' <a href="#" class="compare-btn"><i class="arrow_left-right_alt"></i></a>';
+                    str += '</div></div>';
+                            
+                         
+                    str += '<div class="product-info mt-15 text-center">';
+                    str += '<a href="shop-details.html">';
+                    str += $.trim(val.tenSach);
+                    str += '</a>';
+                    str += '<h6>';
+                    str += val.giaTriSach.toString();
+                    str += '</h6>';
+                    str += '</div>';
+                    str += '</div>';
+                    str += '</div>';    
+                    
+                    
+                });
+                $('#displayProducts').html(str);
+            },
+            error: function(xhr) {
+                alert(xhr.responseText);
+            }
+
+        });
+    }
+
+</script>

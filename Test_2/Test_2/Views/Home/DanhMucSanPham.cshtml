@@ -1,0 +1,77 @@
+﻿@* @model IEnumerable<Test_2.Models.TSach> *@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using X.PagedList.Mvc.Core;
+@using Test_2.Models;
+@model X.PagedList.IPagedList<TSach>
+@{
+    ViewData["Title"] = "DanhMucSanPham";
+    Layout = "~/Views/Shared/_LayoutAlazea.cshtml";
+}
+
+<h1>DanhMucSanPham</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Ten sach
+            </th>
+            <th>
+                Tac gia
+            </th>
+            <th>
+               Nam xuat ban
+            </th>
+           
+            <th>
+                Gioi thieu
+            </th>
+            <th>
+               Gia tri sach
+            </th>
+           
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSach)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TacGia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NamXb)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.GioiThieu)
+            </td>
+            
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaTriSach)
+            </td>
+            
+            <td>
+                <a asp-action="SuaSanPham" asp-route-maSanPham="@item.MaSach">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaSach">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaSach">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<ul class="pagination">
+    @Html.PagedListPager(Model, page => Url.Action("DanhMucSanPham", new { page = page }), new
+            X.PagedList.Mvc.Core.PagedListRenderOptions()
+{
+    LiElementClasses = new List<String> { "page-item" },
+    PageClasses = new List<String> { "page-link" }
+})
+</ul>
